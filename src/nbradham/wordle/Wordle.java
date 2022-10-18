@@ -50,6 +50,11 @@ final class Wordle {
 						return;
 					}
 
+					if (!words.contains(g)) {
+						JOptionPane.showMessageDialog(frame, "You must guess a word.");
+						return;
+					}
+
 					for (byte n = 0; n < g.length(); n++) {
 						if (g.charAt(n) == word.charAt(n)) {
 							guesses[curGuess].color(n, Color.GREEN);
@@ -69,7 +74,7 @@ final class Wordle {
 
 					guesses[curGuess].disableInputs();
 
-					if (++curGuess > guesses.length) {
+					if (++curGuess >= guesses.length) {
 						JOptionPane.showMessageDialog(frame, String.format("The word was: %s", word));
 						frame.dispose();
 						return;
