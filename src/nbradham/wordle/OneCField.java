@@ -19,16 +19,16 @@ final class OneCField extends JTextField {
 		prev = prevInd;
 		next = nextInd;
 
-		setEnabled(false);
+		setEditable(false);
 		setDocument(new PlainDocument() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public final void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
 				if (getLength() + str.length() <= 1) {
-					super.insertString(offs, str, a);
+					super.insertString(offs, str.toUpperCase(), a);
 					if (par.moveCursor(next))
-						setEnabled(false);
+						setEditable(false);
 				}
 			}
 		});
@@ -36,7 +36,7 @@ final class OneCField extends JTextField {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && getText().length() < 1 && par.clearAndMove(prev))
-					setEnabled(false);
+					setEditable(false);
 			}
 		});
 	}
