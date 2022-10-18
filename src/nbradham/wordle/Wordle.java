@@ -38,13 +38,16 @@ final class Wordle {
 			frame.add(guess);
 
 			frame.pack();
-			frame.setVisible(true);
 
 			guesses[0].moveCursor(0);
 		});
 	}
 
+	private void show() {
+		SwingUtilities.invokeLater(() -> frame.setVisible(true));
+	}
+
 	public static void main(String[] args) {
-		new Wordle();
+		new Wordle().show();
 	}
 }
