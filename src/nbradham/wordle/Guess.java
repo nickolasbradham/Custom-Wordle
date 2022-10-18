@@ -14,15 +14,19 @@ import javax.swing.JPanel;
 final class Guess extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	private final OneCField[] letters = new OneCField[5];
+	private final OneCField[] letters;
 
 	/**
 	 * Constructs a new Guess and sets its number.
 	 * 
-	 * @param num Displayed on the label in the GUI.
+	 * @param num    Displayed on the label in the GUI.
+	 * @param length The length of the guess.
 	 */
-	Guess(int num) {
+	Guess(int num, byte length) {
 		super();
+
+		letters = new OneCField[length];
+
 		add(new JLabel(String.format("Guess %d: ", num)));
 
 		for (byte n = 0; n < letters.length; n++)

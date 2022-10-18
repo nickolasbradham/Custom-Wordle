@@ -21,23 +21,41 @@ import javax.swing.SwingUtilities;
  */
 final class Wordle {
 
-	private final JFrame frame = new JFrame("Wordle");
-	private final Guess[] guesses = { new Guess(1), new Guess(2), new Guess(3), new Guess(4), new Guess(5) };
+	private final JFrame frame = new JFrame("Custom Wordle");
+	private final Guess[] guesses;
 	private byte curGuess = 0;
 
 	/**
 	 * Creates the GUI.
+	 * 
+	 * @param length   The length of the word.
+	 * @param guessNum Number of guesses to allow.
 	 */
-	private Wordle() {
+	private Wordle(byte length, byte guessNum) {
+		guesses = new Guess[guessNum];
+		for (byte n = 0; n < guesses.length; n++)
+			guesses[n] = new Guess(n, length);
 
 		Scanner scan = new Scanner(Wordle.class.getResourceAsStream("/words.txt"));
 		ArrayList<String> words = new ArrayList<>();
-		while (scan.hasNext())
-			words.add(scan.nextLine());
-		String word = words.get(new Random().nextInt(words.size()));
+		while (scan.hasNext()) {
+			String s = scan.nextLine();
+			if (s.length() == length)
+				words.add(s);
+		}
 
 		SwingUtilities.invokeLater(() -> {
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+			if (words.size() == 0) {
+				JOptionPane.showMessageDialog(frame, String.format("No words found of length: %d", length));
+				frame.dispose();
+				curGuess = -1;
+				return;
+			}
+
+			String word = words.get(new Random().nextInt(words.size()));
+
 			frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 
 			for (Guess g : guesses)
@@ -48,7 +66,7 @@ final class Wordle {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					String g = guesses[curGuess].getText();
-					if (g.length() != 5) {
+					if (g.length() < length) {
 						JOptionPane.showMessageDialog(frame, "Guess must be complete.");
 						return;
 					}
@@ -105,7 +123,8 @@ final class Wordle {
 	 * Displays the GUI.
 	 */
 	private void show() {
-		SwingUtilities.invokeLater(() -> frame.setVisible(true));
+		if (curGuess >= 0)
+			SwingUtilities.invokeLater(() -> frame.setVisible(true));
 	}
 
 	/**
@@ -120,9 +139,17 @@ final class Wordle {
 	/**
 	 * Launches the game.
 	 * 
-	 * @param args Ignored.
+	 * @param args parsed for game.
 	 */
 	public static void main(String[] args) {
-		new Wordle().show();
+		byte l = 5, g = 5;
+
+		if (args.length > 0)
+			l = Byte.parseByte(args[0]);
+
+		if (args.length > 1)
+			g = Byte.parseByte(args[1]);
+
+		new Wordle(l, g).show();
 	}
 }
