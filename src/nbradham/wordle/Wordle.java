@@ -13,12 +13,21 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+/**
+ * Handles core game setup code.
+ * 
+ * @author Nickolas Bradham
+ *
+ */
 final class Wordle {
 
 	private final JFrame frame = new JFrame("Wordle");
 	private final Guess[] guesses = { new Guess(1), new Guess(2), new Guess(3), new Guess(4), new Guess(5) };
 	private byte curGuess = 0;
 
+	/**
+	 * Creates the GUI.
+	 */
 	private Wordle() {
 
 		Scanner scan = new Scanner(Wordle.class.getResourceAsStream("/words.txt"));
@@ -79,6 +88,7 @@ final class Wordle {
 						frame.dispose();
 						return;
 					}
+
 					updateGuess(curGuess);
 				}
 			});
@@ -91,14 +101,27 @@ final class Wordle {
 		});
 	}
 
+	/**
+	 * Displays the GUI.
+	 */
 	private void show() {
 		SwingUtilities.invokeLater(() -> frame.setVisible(true));
 	}
 
+	/**
+	 * Moves the cursor to the first box of guess {@code g}.
+	 * 
+	 * @param g The guess to move the cursor to.
+	 */
 	private void updateGuess(int g) {
 		guesses[g].moveCursor(0);
 	}
 
+	/**
+	 * Launches the game.
+	 * 
+	 * @param args Ignored.
+	 */
 	public static void main(String[] args) {
 		new Wordle().show();
 	}

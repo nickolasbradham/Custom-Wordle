@@ -7,17 +7,28 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
+/**
+ * Handles text input on the GUI.
+ * 
+ * @author Nickolas Bradham
+ *
+ */
 final class OneCField extends JTextField {
 	private static final long serialVersionUID = 1L;
 
 	private final Guess par;
-	private final int prev, next;
+	private final int ind;
 
-	OneCField(Guess parent, int prevInd, int nextInd) {
+	/**
+	 * Creates a new OneCField instance.
+	 * 
+	 * @param parent The parent Guess associated with this field.
+	 * @param index  This OneCField's index in the Guess.
+	 */
+	OneCField(Guess parent, int index) {
 		super(1);
 		par = parent;
-		prev = prevInd;
-		next = nextInd;
+		ind = index;
 
 		setEditable(false);
 		setDocument(new PlainDocument() {
@@ -27,7 +38,7 @@ final class OneCField extends JTextField {
 			public final void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
 				if (getLength() + str.length() <= 1) {
 					super.insertString(offs, str.toUpperCase(), a);
-					if (par.moveCursor(next))
+					if (par.moveCursor(ind + 1))
 						setEditable(false);
 				}
 			}
@@ -35,7 +46,7 @@ final class OneCField extends JTextField {
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && getText().length() < 1 && par.clearAndMove(prev))
+				if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && getText().length() < 1 && par.clearAndMove(ind - 1))
 					setEditable(false);
 			}
 		});
