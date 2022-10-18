@@ -14,6 +14,7 @@ final class Wordle {
 
 	private final JFrame frame = new JFrame("Wordle");
 	private final Guess[] guesses = { new Guess(1), new Guess(2), new Guess(3), new Guess(4), new Guess(5) };
+	private byte curGuess = 0;
 
 	private Wordle() {
 		SwingUtilities.invokeLater(() -> {
