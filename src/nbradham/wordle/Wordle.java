@@ -68,7 +68,13 @@ final class Wordle {
 					}
 
 					guesses[curGuess].disableInputs();
-					updateGuess(++curGuess);
+
+					if (++curGuess > guesses.length) {
+						JOptionPane.showMessageDialog(frame, String.format("The word was: %s", word));
+						frame.dispose();
+						return;
+					}
+					updateGuess(curGuess);
 				}
 			});
 			frame.getRootPane().setDefaultButton(guess);
