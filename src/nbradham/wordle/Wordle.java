@@ -142,9 +142,7 @@ final class Wordle {
 	 * @param args parsed for game.
 	 */
 	public static void main(String[] args) {
-		byte l = Byte.parseByte(JOptionPane.showInputDialog("Enter word length (>1):", 5)),
-				g = Byte.parseByte(JOptionPane.showInputDialog("Enter number of guesses (>0))=:", 5));
-
-		new Wordle(l, g).show();
+		new Wordle(Byte.parseByte(JOptionPane.showInputDialog("Enter word length (>1):", 5)),
+				Byte.parseByte(JOptionPane.showInputDialog("Enter number of guesses (>0))=:", 5))).show();
 	}
 }
