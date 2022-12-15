@@ -46,8 +46,10 @@ final class OneCField extends JTextField {
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && getText().length() < 1 && par.clearAndMove(ind - 1))
+				if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && getText().length() < 1 && par.clearAndMove(ind - 1)) {
 					setEditable(false);
+					e.consume();
+				}
 			}
 		});
 	}
